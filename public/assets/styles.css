@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Cinzel');
+
+body{
+    background-color: #53868b;
+}
+h1, h2, p, label{
+    color: #1a1a1a;
+	font-family: Cinzel;
+}
+.form-control{
+	background-color:transparent !important;
+	color: #1a1a1a;
+}
+#subButt{
+	background-color:#1a1a1a;
+	border-color: silver;
+	color: silver;
+}
