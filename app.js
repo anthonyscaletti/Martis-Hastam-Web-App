@@ -1,7 +1,7 @@
 const express = require('express');
 const router = require('./controllers/router');
-const enforceSSL = require('./middlewares/security/enforceSSL');
-const helmet = require('./middlewares/security/helmet');
+const enforceSSL = require('./middleware/security/enforceSSL');
+const helmet = require('./middleware/security/helmet');
 const runServer = require('./server/server');
 
 //Initialize express object
