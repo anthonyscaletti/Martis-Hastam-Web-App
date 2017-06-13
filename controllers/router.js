@@ -15,19 +15,19 @@ module.exports = function(app){
         res.render("index");
     });
     //route to Submit page
-    app.post("/submit", function(req, res){
+    app.post("/submit-encryption", function(req, res){
         if(req.files)
         {
             var ptext = req.files.f1;
-
-            ptext.mv("./DATA/" + ptext.name, function(err){
+            //Move plaintext file to DATA-ENC
+            ptext.mv("./DATA-ENC/" + ptext.name, function(err){
                 if(err)
                 {
                     console.log(err);
-                    res.send("ERROR OCCURED");
+                    res.render("submit-encryption", {status: "ERROR OCCURED"});
                 }
                 else
-                    res.send("FILE RECEIVED");
+                    res.render("submit-encryption", {status: "FILE UPLOADED SUCCESSFULLY"});
             });
         }
     });
