@@ -1,5 +1,6 @@
 const bodyParser = require('../middleware/bodyParser');
 const upload = require('express-fileupload');
+const executeEngine = require('./executeEngine');
 
 module.exports = function(app){
     //Middleware express-fileupload
@@ -36,16 +37,21 @@ module.exports = function(app){
                     res.render("submit-encryption", {status: "ERROR OCCURED"});
                 }
                 else
-                    res.render("submit-encryption", {status: "FILE UPLOADED SUCCESSFULLY"});
+                {
+                    executeEngine.encrypt(ptext.name);
+                    res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY"});
+                }
+
             });
         }
     });
     //route to Submit-decryption page
-    app.post("/submit-decryption", function(req, res){
+    app.post("/submit-decryption", urlEncodedParser,function(req, res){
         if(req.files)
         {
             var ctext = req.files.f1;
             var keys = req.files.f2;
+            var ext = req.body.ext;
             //Move ciphertext file to DATA-DEC
             ctext.mv("./DATA/DATA-DEC/" + ctext.name, function(err){
                 if(err)
@@ -56,14 +62,17 @@ module.exports = function(app){
                 else
                 {
                     //Move keys file to DATA-DEC
-                    keys.mv("./DATA-DEC/" + keys.name, function(err){
+                    keys.mv("./DATA/DATA-DEC/" + keys.name, function(err){
                         if(err)
                         {
                             console.log(err);
                             res.render("submit-decryption", {status: "ERROR OCCURED"});
                         }
                         else
-                            res.render("submit-decryption", {status: "FILES UPLOADED SUCCESSFULLY"});
+                        {
+                            executeEngine.decrypt(ctext.name, keys.name, ext);
+                            res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY"});
+                        }
                     });
                 }
             });
