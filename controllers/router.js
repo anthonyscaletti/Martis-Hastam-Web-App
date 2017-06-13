@@ -14,7 +14,15 @@ module.exports = function(app){
     app.get("/home", function(req, res){
         res.render("index");
     });
-    //route to Submit page
+    //Route to Encryption page
+    app.get("/encryption", function(req, res){
+        res.render("encryption");
+    });
+    //Route to Decryption page
+    app.get("/decryption", function(req, res){
+        res.render("decryption");
+    });
+    //route to Submit-encryption page
     app.post("/submit-encryption", function(req, res){
         if(req.files)
         {
@@ -28,6 +36,35 @@ module.exports = function(app){
                 }
                 else
                     res.render("submit-encryption", {status: "FILE UPLOADED SUCCESSFULLY"});
+            });
+        }
+    });
+    //route to Submit-decryption page
+    app.post("/submit-decryption", function(req, res){
+        if(req.files)
+        {
+            var ctext = req.files.f1;
+            var keys = req.files.f2;
+            //Move ciphertext file to DATA-DEC
+            ctext.mv("./DATA-DEC/" + ctext.name, function(err){
+                if(err)
+                {
+                    console.log(err);
+                    res.render("submit-decryption", {status: "ERROR OCCURED"});
+                }
+                else
+                {
+                    //Move keys file to DATA-DEC
+                    keys.mv("./DATA-DEC/" + keys.name, function(err){
+                        if(err)
+                        {
+                            console.log(err);
+                            res.render("submit-decryption", {status: "ERROR OCCURED"});
+                        }
+                        else
+                            res.render("submit-decryption", {status: "FILES UPLOADED SUCCESSFULLY"});
+                    });
+                }
             });
         }
     });

@@ -1,0 +1,24 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <% include partials/cdn.ejs %>
+  <meta charset="utf-8">
+  <title>ENCRYPTION</title>
+</head>
+<body>
+  <div class="container">
+      <h1 class="text-center">ENCRYPTION</h1>
+      <br>
+      <br>
+      <div class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+              <form method="post" enctype="multipart/form-data" action="/submit-encryption" required="true">
+                  <input type="file" name="f1">
+                  <input type="submit" value="upload">
+              </form>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
