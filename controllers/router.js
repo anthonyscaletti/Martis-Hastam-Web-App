@@ -28,7 +28,7 @@ module.exports = function(app){
         {
             var ptext = req.files.f1;
             //Move plaintext file to DATA-ENC
-            ptext.mv("./DATA-ENC/" + ptext.name, function(err){
+            ptext.mv("./DATA/DATA-ENC/" + ptext.name, function(err){
                 if(err)
                 {
                     console.log(err);
@@ -46,7 +46,7 @@ module.exports = function(app){
             var ctext = req.files.f1;
             var keys = req.files.f2;
             //Move ciphertext file to DATA-DEC
-            ctext.mv("./DATA-DEC/" + ctext.name, function(err){
+            ctext.mv("./DATA/DATA-DEC/" + ctext.name, function(err){
                 if(err)
                 {
                     console.log(err);
