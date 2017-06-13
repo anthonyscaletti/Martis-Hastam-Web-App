@@ -1,0 +1,19 @@
+{
+  "name": "martis-hastam-web",
+  "version": "1.0.0",
+  "description": "Web app implementation of Martis Hastam",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WTony12/Martis-Hastam-Web-App.git"
+  },
+  "author": "Tony Wagdi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WTony12/Martis-Hastam-Web-App/issues"
+  },
+  "homepage": "https://github.com/WTony12/Martis-Hastam-Web-App#readme"
+}
