@@ -16,12 +16,12 @@ const encrypt = function(file){
     });
 };
 //Decrypt files
-const decrypt = function(file1, file2){
-    const child = execFile("../ENGINE/AESdecrypt", ["../DATA/DATA-DEC/" + file1, "../DATA/DATA-DEC/" + file2, "../DATA/DATA-DEC/dec.txt"],function(err, stdout, stderr){
+const decrypt = function(file1, file2, ext){
+    const child = execFile("../ENGINE/AESdecrypt", ["../DATA/DATA-DEC/" + file1, "../DATA/DATA-DEC/" + file2, "../DATA/DATA-DEC/dec." + ext],function(err, stdout, stderr){
         if(err)
         {
             console.error(stderr);
-            execFile("rm", ["../DATA/DATA-DEC/dec.txt"]);
+            execFile("rm", ["../DATA/DATA-DEC/dec.undefined"]);
         }
         else
         {
@@ -29,5 +29,5 @@ const decrypt = function(file1, file2){
         }
     });
 };
-
+//Export module
 module.exports = {encrypt, decrypt};

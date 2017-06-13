@@ -27,6 +27,7 @@ module.exports = function(app){
         if(req.files)
         {
             var ptext = req.files.f1;
+            console.log(ptext);
             //Move plaintext file to DATA-ENC
             ptext.mv("./DATA/DATA-ENC/" + ptext.name, function(err){
                 if(err)
