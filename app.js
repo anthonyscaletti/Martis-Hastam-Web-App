@@ -7,7 +7,7 @@ const runServer = require('./server/server');
 //Initialize express object
 const app = express();
 //Enforce HTTPS connections
-enforceSSL(app);
+//enforceSSL(app);
 //Employ helmet module's security suite
 helmet(app);
 //Use EJS view engine
