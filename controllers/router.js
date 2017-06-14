@@ -30,6 +30,7 @@ module.exports = function(app){
         if(req.files)
         {
             var ptext = req.files.f1;
+            
             ptext.name = req.sessionID + ptext.name;
             //Move plaintext file to DATA-ENC
             ptext.mv("./DATA/DATA-ENC/" + ptext.name, function(err){
@@ -65,6 +66,7 @@ module.exports = function(app){
             var ctext = req.files.f1;
             var keys = req.files.f2;
             var ext = req.body.ext;
+
             ctext.name = req.sessionID + ctext.name;
             keys.name = req.sessionID + keys.name;
             //Move ciphertext file to DATA-DEC
