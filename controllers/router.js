@@ -1,6 +1,7 @@
 const bodyParser = require('../middleware/bodyParser');
 const upload = require('express-fileupload');
 const executeEngine = require('./executeEngine');
+const compress = require('./zipFiles');
 const execFile = require('child_process').execFile;
 
 module.exports = function(app){
@@ -39,10 +40,17 @@ module.exports = function(app){
                 }
                 else
                 {
+                    //Execute crypto engine
                     executeEngine.encrypt(ptext.name, req.sessionID, function(){
-                        //res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY"});
-                        res.download("./DATA/DATA-ENC/" + req.sessionID + "enc.txt", req.sessionID + "enc.txt", function(){
-                            //execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt"]);
+                        //Compress files and send them to client
+                        compress.zipFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
+                            res.download("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", function(){
+                                //Delete all client's files from memory
+                                execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt", "./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip"], function(){
+                                    //Remove the client's session from memory
+                                    req.session.destroy();
+                                });
+                            });
                         });
                     });
                 }
@@ -77,10 +85,15 @@ module.exports = function(app){
                         }
                         else
                         {
+                            //Execute crypto engine
                             executeEngine.decrypt(ctext.name, keys.name, ext, req.sessionID, function(){
-                                //res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY"});
+                                //Send decrypted file to client
                                 res.download("./DATA/DATA-DEC/" + req.sessionID + "dec." + ext, req.sessionID + "dec." + ext, function(){
-                                    execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext]);
+                                    //Delete all clients files from memory
+                                    execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext], function(){
+                                        //Remove the client's session from memory
+                                        req.session.destroy();
+                                    });
                                 });
                             });
                         }
