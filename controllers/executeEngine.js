@@ -2,8 +2,8 @@
 const execFile = require('child_process').execFile;
 
 //Encrypt file
-const encrypt = function(file){
-    const child = execFile("./ENGINE/AESencrypt", ["./DATA/DATA-ENC/" + file, "./DATA/DATA-ENC/keys.txt", "./DATA/DATA-ENC/enc.txt"],function(err, stdout, stderr){
+const encrypt = function(file, sessID, callback){
+    const child = execFile("./ENGINE/AESencrypt", ["./DATA/DATA-ENC/" + file, "./DATA/DATA-ENC/" + sessID + "keys.txt", "./DATA/DATA-ENC/" + sessID + "enc.txt"],function(err, stdout, stderr){
         if(err)
         {
             console.error(stderr);
@@ -12,12 +12,13 @@ const encrypt = function(file){
         else
         {
             console.log(stdout);
+            callback();
         }
     });
 };
 //Decrypt files
-const decrypt = function(file1, file2, ext){
-    const child = execFile("./ENGINE/AESdecrypt", ["./DATA/DATA-DEC/" + file1, "./DATA/DATA-DEC/" + file2, "./DATA/DATA-DEC/dec." + ext],function(err, stdout, stderr){
+const decrypt = function(file1, file2, ext, sessID, callback){
+    const child = execFile("./ENGINE/AESdecrypt", ["./DATA/DATA-DEC/" + file1, "./DATA/DATA-DEC/" + file2, "./DATA/DATA-DEC/" + sessID + "dec." + ext],function(err, stdout, stderr){
         if(err)
         {
             console.error(stderr);
@@ -26,6 +27,7 @@ const decrypt = function(file1, file2, ext){
         else
         {
             console.log(stdout);
+            callback();
         }
     });
 };

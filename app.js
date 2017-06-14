@@ -3,9 +3,14 @@ const router = require('./controllers/router');
 const enforceSSL = require('./middleware/security/enforceSSL');
 const helmet = require('./middleware/security/helmet');
 const runServer = require('./server/server');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 //Initialize express object
 const app = express();
+//Initialize session
+app.use(cookieParser());
+app.use(session({secret: "Shh, its a secret!", resave: false, saveUninitialized: false}));
 //Enforce HTTPS connections
 //enforceSSL(app);
 //Employ helmet module's security suite
