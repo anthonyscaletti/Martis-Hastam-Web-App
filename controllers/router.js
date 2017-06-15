@@ -41,7 +41,7 @@ module.exports = function(app){
                 else
                 {
                     executeEngine.encrypt(ptext.name, req.sessionID, function(){
-                        //Compress files and send them to client
+                        //Compress files
                         compress.zipEncFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
                             execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt"]);
                             res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
@@ -90,7 +90,7 @@ module.exports = function(app){
                         {
                             //Execute crypto
                             executeEngine.decrypt(ctext.name, keys.name, ext, req.sessionID, function(){
-                                //Compress file and send it to client
+                                //Compress file
                                 compress.zipDecFiles(req.sessionID + "dec." + ext, req.sessionID, function(){
                                     execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext]);
                                     res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
