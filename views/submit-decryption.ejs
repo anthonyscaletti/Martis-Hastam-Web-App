@@ -11,6 +11,14 @@
       <h1 class="text-center">Successful Submission</h1>
       <h2 class="text-center">Congratulations</h2>
       <h2 class="text-center"><%= status %></h2>
+      <div id="download" class="row">
+          <div class="col-sm-4 col-sm-offset-4">
+              <form id="form" method="post" enctype="multipart/form-data" action="/downloadDEC">
+                  <input type="text" name="fileName" value=<%= zipName %>>
+                  <input type="submit" value="download">
+              </form>
+          </div>
+      </div>
   </div>
 </body>
 </html>

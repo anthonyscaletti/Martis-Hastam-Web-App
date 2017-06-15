@@ -30,7 +30,6 @@ module.exports = function(app){
         if(req.files)
         {
             var ptext = req.files.f1;
-            
             ptext.name = req.sessionID + ptext.name;
             //Move plaintext file to DATA-ENC
             ptext.mv("./DATA/DATA-ENC/" + ptext.name, function(err){
@@ -41,23 +40,26 @@ module.exports = function(app){
                 }
                 else
                 {
-                    //Execute crypto engine
                     executeEngine.encrypt(ptext.name, req.sessionID, function(){
                         //Compress files and send them to client
-                        compress.zipFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
-                            res.download("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", function(){
-                                //Delete all client's files from memory
-                                execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt", "./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip"], function(){
-                                    //Remove the client's session from memory
-                                    req.session.destroy();
-                                });
-                            });
+                        compress.zipEncFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
+                            execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt"]);
+                            res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
                         });
                     });
                 }
 
             });
         }
+    });
+    //route to DownloadENC page
+    app.post("/downloadENC", urlEncodedParser, function(req, res){
+        //Get the session ID
+        var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
+        //Download zipfile
+        res.download("./DATA/DATA-ENC/" + req.body.fileName, function(){
+            execFile("rm", ["./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip"]);
+        });
     });
     //route to Submit-decryption page
     app.post("/submit-decryption", urlEncodedParser,function(req, res){
@@ -66,7 +68,6 @@ module.exports = function(app){
             var ctext = req.files.f1;
             var keys = req.files.f2;
             var ext = req.body.ext;
-
             ctext.name = req.sessionID + ctext.name;
             keys.name = req.sessionID + keys.name;
             //Move ciphertext file to DATA-DEC
@@ -87,15 +88,12 @@ module.exports = function(app){
                         }
                         else
                         {
-                            //Execute crypto engine
+                            //Execute crypto
                             executeEngine.decrypt(ctext.name, keys.name, ext, req.sessionID, function(){
-                                //Send decrypted file to client
-                                res.download("./DATA/DATA-DEC/" + req.sessionID + "dec." + ext, req.sessionID + "dec." + ext, function(){
-                                    //Delete all clients files from memory
-                                    execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext], function(){
-                                        //Remove the client's session from memory
-                                        req.session.destroy();
-                                    });
+                                //Compress file and send it to client
+                                compress.zipDecFiles(req.sessionID + "dec." + ext, req.sessionID, function(){
+                                    execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext]);
+                                    res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
                                 });
                             });
                         }
@@ -103,6 +101,15 @@ module.exports = function(app){
                 }
             });
         }
+    });
+    //route to DownloadDEC page
+    app.post("/downloadDEC", urlEncodedParser, function(req, res){
+        //Get the session ID
+        var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
+        //Download zipfile
+        res.download("./DATA/DATA-DEC/" + req.body.fileName, function(){
+            execFile("rm", ["./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip"]);
+        });
     });
     // Handle 404
     app.use(function(req, res, next){

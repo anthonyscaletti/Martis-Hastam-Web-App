@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    $("#form").on("submit", function(){
-        $("#initialInp").hide();
-    });
-});
+// $(document).ready(function(){
+//     $("#form").on("submit", function(){
+//         $("#initialInp").hide();
+//     });
+// });
