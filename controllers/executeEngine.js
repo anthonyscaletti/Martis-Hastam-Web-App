@@ -8,8 +8,8 @@ const encrypt = function(file, sessID, callback){
         if(err)
         {
             callback(stderr);
-            fs.unlink("./DATA/DATA-ENC/" + sessID + "keys.txt");
-            fs.unlink("./DATA/DATA-ENC/" + sessID + "enc.txt");
+            fs.unlink("./DATA/DATA-ENC/" + sessID + "keys.txt", unlinkCallback);
+            fs.unlink("./DATA/DATA-ENC/" + sessID + "enc.txt", unlinkCallback);
         }
         else
         {
@@ -23,15 +23,23 @@ const decrypt = function(file1, file2, sessID, callback){
         if(err)
         {
             callback(stderr);
-            fs.unlink("./DATA/DATA-DEC/" + file1);
-            fs.unlink("./DATA/DATA-DEC/" + file2);
-            fs.unlink("./DATA/DATA-DEC/" + sessID + "dec");
+            fs.unlink("./DATA/DATA-DEC/" + file1, unlinkCallback);
+            fs.unlink("./DATA/DATA-DEC/" + file2, unlinkCallback);
+            fs.unlink("./DATA/DATA-DEC/" + sessID + "dec", unlinkCallback);
         }
         else
         {
             callback(stdout);
         }
     });
+    //File unlink callback
+    var unlinkCallback = function(err)
+    {
+        if(err)
+        {
+            console.log(err);
+        }
+    };
 };
 //Export module
 module.exports = {encrypt, decrypt};
