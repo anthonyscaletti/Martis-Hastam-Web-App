@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
   <% include partials/cdn.ejs %>
+  <script type="text/javascript" src="/assets/downloadScript.js"></script>
   <meta charset="utf-8">
-  <title>Submission Success</title>
+  <title>Decryption Submission</title>
 </head>
 <body>
     <nav class="navbar fixed-top navbar-inverse bg-primary">
@@ -12,7 +13,10 @@
             <div class="col-xs-1">
                 <img id="logoNav" src="./assets/logo.png" alt="logo">
             </div>
-            <div class="col-sm-8"></div>
+            <div class="col-sm-7"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/"><span style="color: #e3dedb">Main</span></a>
+            </div>
             <div class="col-sm-1">
                 <a class="navbar-brand" href="#"><span style="color: #e3dedb">About</span></a>
             </div>
@@ -21,15 +25,19 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-      <h1 class="text-center">Successful Submission</h1>
-      <h2 class="text-center">Congratulations</h2>
-      <h2 class="text-center"><%= status %></h2>
-      <div id="download" class="row">
-          <div class="col-sm-4 col-sm-offset-4">
+    <div id="bground" class="container">
+      <h1 class="text-center">Submission Status</h1>
+      <br>
+      <br>
+      <div class="row">
+          <div id="box" class="col-sm-4 col-sm-offset-4 text-center">
+              <h2 id="stat" class="text-center"><%= status %></h2>
+              <br>
               <form id="form" method="post" enctype="multipart/form-data" action="/downloadDEC">
                   <input type="text" name="fileName" value=<%= zipName %>>
-                  <input type="submit" value="download">
+                  <br>
+                  <br>
+                  <button class="btn-lg btn-secondary" type="submit">Download</button>
               </form>
           </div>
       </div>

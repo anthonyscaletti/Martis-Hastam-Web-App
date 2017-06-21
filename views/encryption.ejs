@@ -3,6 +3,7 @@
 <html lang="en">
 <head>
   <% include partials/cdn.ejs %>
+  <script type="text/javascript" src="/assets/submitScript.js"></script>
   <meta charset="utf-8">
   <title>ENCRYPTION</title>
 </head>
@@ -12,7 +13,10 @@
             <div class="col-xs-1">
                 <img id="logoNav" src="./assets/logo.png" alt="logo">
             </div>
-            <div class="col-sm-8"></div>
+            <div class="col-sm-7"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/"><span style="color: #e3dedb">Main</span></a>
+            </div>
             <div class="col-sm-1">
                 <a class="navbar-brand" href="#"><span style="color: #e3dedb">About</span></a>
             </div>
@@ -21,15 +25,18 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-      <h1 class="text-center">ENCRYPTION</h1>
-      <!-- <br>
-      <br> -->
-      <div id="initialInp" class="row">
-          <div class="col-sm-4 col-sm-offset-4">
+    <div id="bground" class="container">
+      <h1 class="text-center">Encryption</h1>
+      <br>
+      <br>
+      <div class="row">
+          <div id="box" class="col-sm-4 col-sm-offset-4">
               <form id="form" method="post" enctype="multipart/form-data" action="/submit-encryption" required="true">
-                  <input type="file" name="f1">
-                  <input type="submit" value="upload">
+                  <label>Enter file to be encrypted:<label>
+                  <input class="fileInp" type="file" name="f1">
+                  <br>
+                  <br>
+                  <button class="btn-lg btn-secondary" type="submit">Upload</button>
               </form>
           </div>
       </div>
