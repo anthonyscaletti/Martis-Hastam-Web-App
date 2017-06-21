@@ -22,4 +22,4 @@ app.use(express.static(__dirname + '/public'));
 //Router engine
 router(app);
 //Run server
-runServer(app, 3010);
+runServer(app, process.env.PORT || 5000);
