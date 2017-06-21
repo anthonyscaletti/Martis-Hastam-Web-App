@@ -14,7 +14,7 @@ app.use(session({secret: "Shh, its a secret!", resave: false, saveUninitialized:
 //Enforce HTTPS connections
 //enforceSSL(app);
 //Employ helmet module's security suite
-helmet(app);
+//helmet(app);
 //Use EJS view engine
 app.set("view engine", "ejs");
 //Specify where the static files are located
