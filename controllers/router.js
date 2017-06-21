@@ -3,6 +3,7 @@ const upload = require('express-fileupload');
 const executeEngine = require('./executeEngine');
 const compress = require('./zipFiles');
 const execFile = require('child_process').execFile;
+const fs = require('fs');
 
 module.exports = function(app){
     //Middleware express-fileupload
@@ -40,12 +41,21 @@ module.exports = function(app){
                 }
                 else
                 {
-                    executeEngine.encrypt(ptext.name, req.sessionID, function(){
-                        //Compress files
-                        compress.zipEncFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
-                            execFile("rm", ["./DATA/DATA-ENC/" + ptext.name, "./DATA/DATA-ENC/" + req.sessionID + "keys.txt", "./DATA/DATA-ENC/" + req.sessionID + "enc.txt"]);
-                            res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
-                        });
+                    executeEngine.encrypt(ptext.name, req.sessionID, function(stdout){
+                        if(stdout.trim() == "Encryption Successful")
+                        {
+                            //Compress files
+                            compress.zipEncFiles(req.sessionID + "enc.txt", req.sessionID + "keys.txt", req.sessionID, function(){
+                                fs.unlink("./DATA/DATA-ENC/" + ptext.name);
+                                fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "keys.txt");
+                                fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "enc.txt");
+                                res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
+                            });
+                        }
+                        else
+                        {
+                            res.render("submit-encryption", {status: "ERROR OCCURED", zipName: ""});
+                        }
                     });
                 }
 
@@ -58,7 +68,7 @@ module.exports = function(app){
         var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
         //Download zipfile
         res.download("./DATA/DATA-ENC/" + req.body.fileName, function(){
-            execFile("rm", ["./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip"]);
+            fs.unlink("./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip");
         });
     });
     //route to Submit-decryption page
@@ -67,7 +77,6 @@ module.exports = function(app){
         {
             var ctext = req.files.f1;
             var keys = req.files.f2;
-            var ext = req.body.ext;
             ctext.name = req.sessionID + ctext.name;
             keys.name = req.sessionID + keys.name;
             //Move ciphertext file to DATA-DEC
@@ -89,12 +98,22 @@ module.exports = function(app){
                         else
                         {
                             //Execute crypto
-                            executeEngine.decrypt(ctext.name, keys.name, ext, req.sessionID, function(){
-                                //Compress file
-                                compress.zipDecFiles(req.sessionID + "dec." + ext, req.sessionID, function(){
-                                    execFile("rm", ["./DATA/DATA-DEC/" + ctext.name, "./DATA/DATA-DEC/" + keys.name, "./DATA/DATA-DEC/" + req.sessionID + "dec." + ext]);
-                                    res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
-                                });
+                            executeEngine.decrypt(ctext.name, keys.name, req.sessionID, function(stdout){
+                                if(stdout.trim() == "Decryption Successful")
+                                {
+                                    //Compress file
+                                    compress.zipDecFiles(req.sessionID + "dec", req.sessionID, function(){
+                                        fs.unlink("./DATA/DATA-DEC/" + ctext.name);
+                                        fs.unlink("./DATA/DATA-DEC/" + keys.name);
+                                        fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "dec");
+                                        res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
+                                    });
+                                }
+                                else
+                                {
+                                    //I will not display other errors for security reasons
+                                    res.render("submit-decryption", {status: "Hash Verification Error", zipName: ""});
+                                }
                             });
                         }
                     });
@@ -108,7 +127,7 @@ module.exports = function(app){
         var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
         //Download zipfile
         res.download("./DATA/DATA-DEC/" + req.body.fileName, function(){
-            execFile("rm", ["./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip"]);
+            fs.unlink("./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip");
         });
     });
     // Handle 404
