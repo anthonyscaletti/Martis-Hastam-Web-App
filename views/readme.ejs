@@ -1,0 +1,76 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <% include partials/cdn.ejs %>
+  <meta charset="utf-8">
+  <title>Readme</title>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-inverse bg-primary">
+        <div class="row">
+            <div class="col-xs-1">
+                <img id="logoNav" src="./assets/logo.png" alt="logo">
+            </div>
+            <div class="col-sm-7"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/"><span style="color: #e3dedb">Main</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/about"><span style="color: #e3dedb">About</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">Readme</span></a>
+            </div>
+        </div>
+    </nav>
+    <div id="bground" class="container">
+      <h1 class="text-center">Readme</h1>
+      <br>
+      <br>
+      <div class="row">
+          <div id="box" class="col-sm-4 col-sm-offset-4" style="padding-top: 1%; padding-bottom: 1%">
+              <h2>Tutorial:</h2>
+              <br>
+              <p>This is a very simple application to use. Note that you can always click
+                  "Main" on the navigation bar to take you to the homepage.</p>
+              <br>
+              <p>In the homepage you can select whether you would like to encrypt a
+                  file by clicking on "Encryption", or you can decrypt a file by clicking on "Decryption".</p>
+              <br>
+              <h2>Encryption:</h2>
+              <br>
+              <ol>
+                  <li>Provide the file you would like to be encrypted.</li>
+                  <li>Click the upload button to submit the file to the server.</li>
+              </ol>
+              <p>You are now in the Encryption Submission page:</p>
+              <p>If an error occured, it will tell you why. Hit back on your browser to try again,
+                   or click "Main" to go back to the homepage.</p>
+              <br>
+              <p>On the other hand if all went well, you will see your file with a download button.
+                  You have 30 seconds to download your file before it expires.</p>
+              <br>
+              <h2>Decryption:</h2>
+              <br>
+              <ol>
+                  <li>Provide the file containing the ciphertext.</li>
+                  <li>Provide the file containing the keys used to encrypt that ciphertext</li>
+                  <li>Click the upload button to submit the file to the server.</li>
+              </ol>
+              <p>You are now in the Decryption Submission page:</p>
+              <p>If an error occured, it will tell you why. Hit back on your browser to try again,
+                   or click "Main" to go back to the homepage.</p>
+              <br>
+              <p>On the other hand if all went well, you will see your file with a download button.
+                  You have 30 seconds to download your file before it expires.</p>
+              <br>
+              <p style="font-weight: bold">All your files are immidiately deleted from the server and in no way are
+                  they stored in any database or storage device.</p>
+              <br>
+              <h4>That's all folks!</h4>
+          </div>
+      </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <% include partials/cdn.ejs %>
+  <meta charset="utf-8">
+  <title>About</title>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-inverse bg-primary">
+        <div class="row">
+            <div class="col-xs-1">
+                <img id="logoNav" src="./assets/logo.png" alt="logo">
+            </div>
+            <div class="col-sm-7"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/"><span style="color: #e3dedb">Main</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">About</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="/readme"><span style="color: #e3dedb">Readme</span></a>
+            </div>
+        </div>
+    </nav>
+    <div id="bground" class="container">
+      <h1 class="text-center">About</h1>
+      <br>
+      <br>
+      <div class="row">
+          <div id="box" class="col-sm-4 col-sm-offset-4" style="padding-top: 1%; padding-bottom: 1%">
+              <h2>Introduction:</h2>
+              <br>
+              <p>Martis Hastam translates to The Spear of Mars in Latin. The front line defense
+of any digital data is a secure encryption layer to shield it. Martis Hastam does
+exactly that. It uses an AES256-GCM encryption to encrypt documents
+including text files, pdf files, images, audio, and video files. Using a tried and
+tested NIST approved cipher is vital in protecting data in this ever-changing
+digital world.</p>
+              <br>
+              <h2>Cryptography Engine:</h2>
+              <br>
+              <p>The cryptography engine is built in C++ using the Crypto++
+class library. C++ was chosen due to its speed and efficiency compared to
+other languages. Crypto++ was selected due to its reliability, efficiency, and the
+fact that its open source. Meaning the implemented algorithms have been
+extensively tried and tested. Rather than encrypting the entire document once
+and producing one key. I encrypt each line of the document using a different
+key. This adds an extra layer of protection.</p>
+              <br>
+              <h4 class="text-center">Developed by Tony Wagdi</h4>
+          </div>
+      </div>
+    </div>
+</body>
+</html>

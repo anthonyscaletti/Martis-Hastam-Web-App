@@ -15,8 +15,16 @@ module.exports = function(app){
         res.render("index");
     });
     //Route to Homepage
-    app.get("/home", function(req, res){
+    app.get("/main", function(req, res){
         res.render("index");
+    });
+    //Route to About
+    app.get("/about", function(req, res){
+        res.render("about");
+    });
+    //Route to Readme
+    app.get("/readme", function(req, res){
+        res.render("readme");
     });
     //Route to Encryption page
     app.get("/encryption", function(req, res){

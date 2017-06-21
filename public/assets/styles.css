@@ -9,7 +9,7 @@ body{
 #bground{
     background-color: #53868b;
 }
-h1, h2, p, label{
+h1, h2, h4, p, label, li{
     color: #000000;
 	font-family: Cinzel;
 }
@@ -33,9 +33,6 @@ h1, h2, p, label{
 	max-width: 100%;
   	max-height: 100%;
 }
-.fileInp, label{
+.fileInp{
     color: #e3dedb;
-}
-label{
-    color: #000000;
 }
