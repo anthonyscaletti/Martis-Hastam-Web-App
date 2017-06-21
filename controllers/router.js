@@ -50,6 +50,10 @@ module.exports = function(app){
                                 fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "keys.txt", callback);
                                 fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "enc.txt", callback);
                                 res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
+                                //Delete zip after 30s
+                                setTimeout(function(){
+                                    fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", callback);
+                                }, 30000);
                             });
                         }
                         else
@@ -107,6 +111,10 @@ module.exports = function(app){
                                         fs.unlink("./DATA/DATA-DEC/" + keys.name, callback);
                                         fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "dec", callback);
                                         res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
+                                        //Delete zip after 30s
+                                        setTimeout(function(){
+                                            fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", callback);
+                                        }, 30000);
                                     });
                                 }
                                 else
