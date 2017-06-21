@@ -4,20 +4,35 @@
 <head>
   <% include partials/cdn.ejs %>
   <meta charset="utf-8">
-  <title>HOMEPAGE</title>
+  <title>Martis Hastam</title>
 </head>
 <body>
-  <div class="container">
-      <h1 class="text-center">HOMEPAGE</h1>
+    <nav class="navbar fixed-top navbar-inverse bg-primary">
+        <div class="row">
+            <div class="col-xs-1">
+                <img id="logoNav" src="./assets/logo.png" alt="logo">
+            </div>
+            <div class="col-sm-8"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">About</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">Readme</span></a>
+            </div>
+        </div>
+    </nav>
+    <div id="bground" class="container">
+      <h1 class="text-center">Martis Hastam</h1>
       <br>
       <br>
       <div class="row">
-          <div class="col-sm-4 col-sm-offset-4 text-center">
-              <a href="/encryption"><button type="button" class="btn-lg btn-primary">Encryption</button></a>
+          <div id="box" class="col-sm-4 col-sm-offset-4 text-center">
+              <a href="/encryption"><button type="button" class="btn-lg btn-secondary">Encryption</button></a>
               <br>
-              <a href="/decryption"><button type="button" class="btn-lg btn-primary">Decryption</button></a>
+              <br>
+              <a href="/decryption"><button type="button" class="btn-lg btn-secondary">Decryption</button></a>
           </div>
       </div>
-  </div>
+    </div>
 </body>
 </html>

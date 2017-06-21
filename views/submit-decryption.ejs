@@ -7,7 +7,21 @@
   <title>Submission Success</title>
 </head>
 <body>
-  <div class="container">
+    <nav class="navbar fixed-top navbar-inverse bg-primary">
+        <div class="row">
+            <div class="col-xs-1">
+                <img id="logoNav" src="./assets/logo.png" alt="logo">
+            </div>
+            <div class="col-sm-8"></div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">About</span></a>
+            </div>
+            <div class="col-sm-1">
+                <a class="navbar-brand" href="#"><span style="color: #e3dedb">Readme</span></a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
       <h1 class="text-center">Successful Submission</h1>
       <h2 class="text-center">Congratulations</h2>
       <h2 class="text-center"><%= status %></h2>
@@ -19,6 +33,6 @@
               </form>
           </div>
       </div>
-  </div>
+    </div>
 </body>
 </html>
