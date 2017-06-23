@@ -60,7 +60,12 @@ module.exports = function(app){
                                 res.render("submit-encryption", {status: "FILE ENCRYPTED SUCCESSFULLY", zipName: req.sessionID + "ENCRYPTED.zip"});
                                 //Delete zip after 30s
                                 setTimeout(function(){
-                                    fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", callback);
+                                    fs.access("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", function(err){
+                                        if(err === null)
+                                        {
+                                            fs.unlink("./DATA/DATA-ENC/" + req.sessionID + "ENCRYPTED.zip", callback);
+                                        }
+                                    });
                                 }, 35000);
                             });
                         }
@@ -80,7 +85,12 @@ module.exports = function(app){
         var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
         //Download zipfile
         res.download("./DATA/DATA-ENC/" + req.body.fileName, function(){
-            fs.unlink("./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip", callback);
+            fs.access("./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip", function(err){
+                if(err === null)
+                {
+                    fs.unlink("./DATA/DATA-ENC/" + sessID + "ENCRYPTED.zip", callback);
+                }
+            });
         });
     });
     //route to Submit-decryption page
@@ -115,13 +125,19 @@ module.exports = function(app){
                                 {
                                     //Compress file
                                     compress.zipDecFiles(req.sessionID + "dec", req.sessionID, function(){
+                                        //Delete files
                                         fs.unlink("./DATA/DATA-DEC/" + ctext.name, callback);
                                         fs.unlink("./DATA/DATA-DEC/" + keys.name, callback);
                                         fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "dec", callback);
                                         res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
                                         //Delete zip after 30s
                                         setTimeout(function(){
-                                            fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", callback);
+                                            fs.access("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", function(err){
+                                                if(err === null)
+                                                {
+                                                    fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", callback);
+                                                }
+                                            });
                                         }, 35000);
                                     });
                                 }
@@ -143,7 +159,12 @@ module.exports = function(app){
         var sessID = req.body.fileName.substr(0, req.body.fileName.length - 13);
         //Download zipfile
         res.download("./DATA/DATA-DEC/" + req.body.fileName, function(){
-            fs.unlink("./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip", callback);
+            fs.access("./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip", function(err){
+                if(err === null)
+                {
+                    fs.unlink("./DATA/DATA-DEC/" + sessID + "DECRYPTED.zip", callback);
+                }
+            });
         });
     });
     // Handle 404

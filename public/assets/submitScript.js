@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
     $("#form").on("submit", function(){
         var isComplete = true;
 
@@ -11,6 +12,10 @@ $(document).ready(function(){
         if(!isComplete)
             return false;
         else
+        {
+            $(".btn-lg").hide();
+            $("#logoLoad").removeClass("hidden");
             return true;
+        }
     });
 });

@@ -23,9 +23,18 @@ const decrypt = function(file1, file2, sessID, callback){
         if(err)
         {
             callback(stderr);
-            fs.unlink("./DATA/DATA-DEC/" + file1, unlinkCallback);
-            fs.unlink("./DATA/DATA-DEC/" + file2, unlinkCallback);
-            fs.unlink("./DATA/DATA-DEC/" + sessID + "dec", unlinkCallback);
+            //Delete files if they exist
+            if(file1 === file2)
+            {
+                fs.unlink("./DATA/DATA-DEC/" + file1, unlinkCallback);
+                fs.unlink("./DATA/DATA-DEC/" + sessID + "dec", unlinkCallback);
+            }
+            else
+            {
+                fs.unlink("./DATA/DATA-DEC/" + file1, unlinkCallback);
+                fs.unlink("./DATA/DATA-DEC/" + file2, unlinkCallback);
+                fs.unlink("./DATA/DATA-DEC/" + sessID + "dec", unlinkCallback);
+            }
         }
         else
         {

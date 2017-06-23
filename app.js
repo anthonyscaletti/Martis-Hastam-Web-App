@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(session({secret: "Shh, its a secret!", resave: false, saveUninitialized: false}));
 //Enforce HTTPS connections
-enforceSSL(app);
+//enforceSSL(app);
 //Employ helmet module's security suite
 helmet(app);
 //Use EJS view engine
