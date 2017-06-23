@@ -4,6 +4,9 @@ const executeEngine = require('./executeEngine');
 const compress = require('./zipFiles');
 const execFile = require('child_process').execFile;
 const fs = require('fs');
+const mmm = require('mmmagic');
+const Magic = mmm.Magic;
+const mime = require('mime');
 
 module.exports = function(app){
     //Middleware express-fileupload
@@ -123,22 +126,40 @@ module.exports = function(app){
                             executeEngine.decrypt(ctext.name, keys.name, req.sessionID, function(stdout){
                                 if(stdout.trim() == "Decryption Successful")
                                 {
-                                    //Compress file
-                                    compress.zipDecFiles(req.sessionID + "dec", req.sessionID, function(){
-                                        //Delete files
-                                        fs.unlink("./DATA/DATA-DEC/" + ctext.name, callback);
-                                        fs.unlink("./DATA/DATA-DEC/" + keys.name, callback);
-                                        fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "dec", callback);
-                                        res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
-                                        //Delete zip after 30s
-                                        setTimeout(function(){
-                                            fs.access("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", function(err){
-                                                if(err === null)
-                                                {
-                                                    fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", callback);
-                                                }
+                                    //Detect encrypted file type
+                                    var magic = new Magic(mmm.MAGIC_MIME_TYPE);
+                                    var ext;
+
+                                    magic.detectFile("./DATA/DATA-DEC/" + req.sessionID + "dec", function(err, result) {
+                                        if(err)
+                                        {
+                                            throw err;
+                                        }
+                                        ext = result;
+                                        //Rename decrypted file
+                                        fs.rename("./DATA/DATA-DEC/" + req.sessionID + "dec", "./DATA/DATA-DEC/" + req.sessionID + "dec." + mime.extension(ext), function(err) {
+                                            if(err)
+                                            {
+                                                console.err('ERROR: ' + err);
+                                            }
+                                            //Compress file
+                                            compress.zipDecFiles(req.sessionID + "dec." + mime.extension(ext), req.sessionID, function(){
+                                                //Delete files
+                                                fs.unlink("./DATA/DATA-DEC/" + ctext.name, callback);
+                                                fs.unlink("./DATA/DATA-DEC/" + keys.name, callback);
+                                                fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "dec." + mime.extension(ext), callback);
+                                                res.render("submit-decryption", {status: "FILE DECRYPTED SUCCESSFULLY", zipName: req.sessionID + "DECRYPTED.zip"});
+                                                //Delete zip after 30s
+                                                setTimeout(function(){
+                                                    fs.access("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", function(err){
+                                                        if(err === null)
+                                                        {
+                                                            fs.unlink("./DATA/DATA-DEC/" + req.sessionID + "DECRYPTED.zip", callback);
+                                                        }
+                                                    });
+                                                }, 35000);
                                             });
-                                        }, 35000);
+                                        });
                                     });
                                 }
                                 else
