@@ -1,6 +1,9 @@
 {
   "name": "martis-hastam-web",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.1.4"
+  },
   "description": "Web app implementation of Martis Hastam",
   "main": "app.js",
   "scripts": {
